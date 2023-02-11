@@ -41,12 +41,10 @@ public class Main {
             FileInputStream fileI = new FileInputStream(nombreFichero);
             di = new DataInputStream(fileI);
             String line;
-            int i = 0;
             while((line = di.readLine()) != null){
                 System.out.println(line);
                 String datos[] = line.split(",");
                 alumnos.add(new Alumno(datos[0],datos[1],datos[2],datos[3]));
-                i++;
             }
         }catch (Exception e){
             System.out.println(e.toString());
