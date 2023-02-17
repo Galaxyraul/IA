@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="92757c5c-ccd9-40a5-b31f-2deb8a4b86e3" name="Changes" comment="Agente realizado" />
+    <list default="true" id="92757c5c-ccd9-40a5-b31f-2deb8a4b86e3" name="Changes" comment="Agente realizado">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,15 +32,19 @@
   </component>
   <component name="ProjectId" id="2LpeC9ZCQkThsWSaFDG2zb82mPs" />
   <component name="ProjectViewState">
+    <option name="flattenPackages" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+    <option name="showVisibilityIcons" value="true" />
+    <option name="sortByType" value="true" />
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/java/IA/Practica1&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/usuario/IdeaProjects/IA&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -46,7 +52,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.scopes&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -70,6 +76,9 @@
       <updated>1676572323299</updated>
       <workItem from="1676572324430" duration="835000" />
       <workItem from="1676573284554" duration="278000" />
+      <workItem from="1676632161184" duration="141000" />
+      <workItem from="1676632320413" duration="132000" />
+      <workItem from="1676632495573" duration="64000" />
     </task>
     <task id="LOCAL-00001" summary="Agente realizado">
       <created>1676573311525</created>
