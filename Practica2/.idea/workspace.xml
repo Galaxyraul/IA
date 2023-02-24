@@ -1,29 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="b80172c7-8594-4bbc-b659-9633aecb0e44" name="Changes" comment="">
+    <list default="true" id="2359b697-0c2f-4703-af27-af540c5fd8b1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/----.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/---0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/--0-.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/--00.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/-0--.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/-0-0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/-00-.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/-000.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/0---.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/0--0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/0-0-.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/0-00.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/00--.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/00-0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/000-.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/0000.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/bomb.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cheese.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/exploded.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/mousedown.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/mouseleft.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/mouseright.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/mouseup.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/GameStarter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/game/Bomb.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/game/BombRepresent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/game/BombThread.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/game/Cheese.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/game/CountDownThread.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/game/Debug.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/game/GameConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/game/GameController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/game/GameControllerAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/game/GameUI.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/game/Grid.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/game/Maze.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/game/Mouse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/game/MouseController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/game/MouseRepresent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/game/SequencingThread.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/game/Wall.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/game/common/ImagedPanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/mouse/MXXA04A.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/mouse/MouseLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/mouse/ProblematicMouse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mouserun/mouse/TestMouse.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2MBDqozD5PhVKxLNihCiSZ3qfAh" />
+  <component name="ProjectId" id="2MBFYqdyG1fxDFNQxqpxuOnE6gn" />
   <component name="ProjectViewState">
     <option name="flattenPackages" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -37,7 +78,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/usuario/IdeaProjects/IA/Practica2",
+    "last_opened_file_path": "C:/Users/usuario/IdeaProjects/IA/Practica2/src/mouserun",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -45,17 +86,30 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="mouseRun" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="mouseRun" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="b80172c7-8594-4bbc-b659-9633aecb0e44" name="Changes" comment="" />
-      <created>1677232278033</created>
+      <changelist id="2359b697-0c2f-4703-af27-af540c5fd8b1" name="Changes" comment="" />
+      <created>1677233118983</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1677232278033</updated>
-      <workItem from="1677232279203" duration="17000" />
-      <workItem from="1677232324042" duration="59000" />
-      <workItem from="1677232565962" duration="321000" />
+      <updated>1677233118983</updated>
+      <workItem from="1677233120113" duration="926000" />
     </task>
     <servers />
   </component>
