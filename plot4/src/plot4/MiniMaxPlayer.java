@@ -50,11 +50,11 @@ public class MiniMaxPlayer extends Player {
         //Elegimos estado favorable
         int posicion = 0;
         int hijoEmpate = -1;
-        for(int i = 0; i < nodoActual.sons.size() && nodoActual.sons.get(posicion).mark  != 1;++i){
+        for(int i = 0; i < nodoActual.sons.size() && nodoActual.sons.get(posicion).mark  != -1;++i){
             if(posicion == 0){hijoEmpate = i;}
             posicion = i;
         }
-        posicion = nodoActual.sons.get(posicion).mark > 0 && hijoEmpate != -1? 0:posicion;
+        posicion = nodoActual.sons.get(posicion).mark >= 0 && hijoEmpate != -1? 0:posicion;
         Node aux = nodoActual;
         nodoActual = nodoActual.sons.get(posicion);
         //Devolvemos movimiento
@@ -116,11 +116,12 @@ class Node{
         }
         //Asignar marca
         int hijoEmpate = -1;
-        for(int i = 0; i < sons.size() && mark != 1;++i){
+
+        for(int i = 0; i < sons.size() && mark != jugador;++i){
             if(mark == 0){hijoEmpate = i;}
             mark = sons.get(i).mark;
         }
         //En caso de que no pueda ganar pero pueda ganar busco el empate
-        mark = mark > 0 && hijoEmpate != -1? 0:mark;
+        mark = mark >= 0 && hijoEmpate != -1? 0:mark;
     }
 }

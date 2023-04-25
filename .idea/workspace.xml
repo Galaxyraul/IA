@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="92757c5c-ccd9-40a5-b31f-2deb8a4b86e3" name="Changes" comment="Agente realizado">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Practica1/APDescription.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Practica1/APDescription.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Practica1/MTPs-Main-Container.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Practica1/MTPs-Main-Container.txt" afterDir="false" />
-    </list>
+    <list default="true" id="92757c5c-ccd9-40a5-b31f-2deb8a4b86e3" name="Changes" comment="Agente realizado" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -42,7 +38,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/cocol/OneDrive/Escritorio/Sesion6",
+    "last_opened_file_path": "D:/java/IA/plot4",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -77,6 +73,7 @@
       <workItem from="1676627209399" duration="146000" />
       <workItem from="1676632413473" duration="280000" />
       <workItem from="1678953081242" duration="10000" />
+      <workItem from="1682447744732" duration="610000" />
     </task>
     <task id="LOCAL-00001" summary="Agente realizado">
       <created>1676573311525</created>
