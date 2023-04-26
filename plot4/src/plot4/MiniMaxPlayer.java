@@ -47,11 +47,12 @@ public class MiniMaxPlayer extends Player {
                 }
             }
         }
+        nodoActual.visualizaHijos();
         //Elegimos estado favorable
         int posicion = 0;
         int hijoEmpate = -1;
         for(int i = 0; i < nodoActual.sons.size() && nodoActual.sons.get(posicion).mark  != -1;++i){
-            if(posicion == 0){hijoEmpate = i;}
+            if(nodoActual.sons.get(posicion).mark == 0){hijoEmpate = i;}
             posicion = i;
         }
         posicion = nodoActual.sons.get(posicion).mark >= 0 && hijoEmpate != -1? 0:posicion;
@@ -94,7 +95,11 @@ class Node{
     public Grid getState() {
         return state;
     }
-
+    public void visualizaHijos(){
+        for (int i = 0; i < this.sons.size(); i++) {
+            System.out.println("hijo:" + i + " valor:" + sons.get(i).mark);
+        }
+    }
     public void setSons(int jugador){
         //Comprobamos que no haya ganado nadie
         if(state.checkWin() != 0){
