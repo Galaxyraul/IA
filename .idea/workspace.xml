@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="92757c5c-ccd9-40a5-b31f-2deb8a4b86e3" name="Changes" comment="Agente realizado" />
+    <list default="true" id="92757c5c-ccd9-40a5-b31f-2deb8a4b86e3" name="Changes" comment="Agente realizado">
+      <change beforePath="$PROJECT_DIR$/plot4/out/production/plot4/plot4/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/plot4/out/production/plot4/plot4/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plot4/src/plot4/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/plot4/src/plot4/Main.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,7 +41,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/java/IA/plot4",
+    "last_opened_file_path": "C:/Users/cocol/OneDrive/Escritorio/Universidad/Repos/IA/plot4",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",

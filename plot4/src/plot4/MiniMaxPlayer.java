@@ -118,7 +118,7 @@ class Node{
         int hijoEmpate = -1;
 
         for(int i = 0; i < sons.size() && mark != jugador;++i){
-            if(mark == 0){hijoEmpate = i;}
+            if(sons.get(i).mark == 0){hijoEmpate = i;}
             mark = sons.get(i).mark;
         }
         //En caso de que no pueda ganar pero pueda ganar busco el empate
