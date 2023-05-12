@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import static plot4.Constantes.*;
 
 interface Constantes{
-    int NIVEL_MAX = 9; //Nivel máximo
+    int NIVEL_MAX = 8; //Nivel máximo
 }
 
 /**
@@ -81,6 +81,8 @@ class Nodo{
     public double peso = 0;
     public int movimiento;
 
+    public int jugador = 0;
+
     public Nodo(Nodo parent, Grid state) {
         this.parent = parent;
         sons = new ArrayList<>();
@@ -118,6 +120,7 @@ class Nodo{
             peso = -jugador * Math.pow(getBigger(-jugador),2);
             return;
         }
+        this.jugador = jugador;
         //Generación Base
         for (int i = 0; i < state.columnas; ++i) {
             Grid aux = new Grid(state);

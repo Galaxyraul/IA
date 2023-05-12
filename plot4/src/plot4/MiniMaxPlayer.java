@@ -7,6 +7,8 @@ package plot4;
 
 import java.util.ArrayList;
 
+import static plot4.Constantes.NIVEL_MAX;
+
 /**
  *
  * @author José María Serrano
