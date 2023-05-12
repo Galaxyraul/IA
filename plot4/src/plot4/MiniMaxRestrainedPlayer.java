@@ -5,39 +5,229 @@
  */
 package plot4;
 
+import java.util.ArrayList;
+
+import static plot4.Constantes.*;
+
+interface Constantes{
+    int NIVEL_MAX = 8; //Nivel máximo
+}
+
 /**
  *
- * @author José María Serrano
- * @version 1.7 Departamento de Informática. Universidad de Jáen 
- * Última revisión: 2023-03-30
+ * @author Juan Carlos González Martínez - jcgm0022
+ * @author Raúl Gomez Téllez - rgt00024
  *
  * Inteligencia Artificial. 2º Curso. Grado en Ingeniería Informática
  *
- * Clase MiniMaxRestrainedPlayer para representar al jugador CPU que usa una
- * técnica de IA
- *
- * Esta clase es en la que tenemos que implementar y completar el algoritmo
- * MiniMax Restringido
- *
+ * Clase MiniMaxRestrainedPlayer para representar al jugador CPU que usa una técnica de IA
  */
 public class MiniMaxRestrainedPlayer extends Player {
+    private Nodo nodoActual = null;
 
     /**
      * @brief funcion que determina donde colocar la ficha este turno
      * @param tablero Tablero de juego
      * @param conecta Número de fichas consecutivas adyacentes necesarias para
      * ganar
-     * @return columna donde dejar caer la ficha
+     * @return Devuelve si ha ganado algun jugador
      */
     @Override
     public int turno(Grid tablero, int conecta) {
+        //Comprobamos que el arbol no se ha creado
+        if (nodoActual == null){
+            nodoActual = new Nodo(null,tablero); //Nodo raiz
+            nodoActual.setSons(-1,1);
+        }
+        //Nos vamos al estado resultante de haber jugado el otro jugador
+        if(!tablerosIguales(nodoActual.getState(),tablero)){
+            for(int i = 0; i < nodoActual.sons.size();++i){
+                if(tablerosIguales(nodoActual.sons.get(i).state,tablero)) {
+                    nodoActual = nodoActual.sons.get(i);
+                    break;
+                }
+            }
+        }
+        nodoActual.visualizaHijos();
+        if(nodoActual.sons.size() != 0) { //Si tenemos hijos buscamos el más favorable en nuestro caso el menor
+            int posicion = 0;
+            for (int i = 0; i < nodoActual.sons.size(); ++i) {
+                posicion = nodoActual.sons.get(i).peso < nodoActual.sons.get(posicion).peso?i:posicion;
+            }
+            Nodo aux = nodoActual;
+            nodoActual = nodoActual.sons.get(posicion);
+            //Devolvemos movimiento
+            return aux.sons.get(posicion).movimiento;
+        }else{ //Si no tenemos hijos escogemos aleatoriamente una columna
+            return getRandomColumn(tablero);
+        }
+    }
+    
+    public boolean tablerosIguales(Grid hijo,Grid tablero){
+        boolean iguales = true;
+        for (int i = 0; i < tablero.filas && iguales; i++) {
+            for (int j = 0; j < tablero.columnas && iguales; j++) {
+                iguales = hijo.get(i,j) == tablero.get(i,j);
+            }
+        }
+        return iguales;
+    }
 
-        int posicion = getRandomColumn(tablero);
-        // to do
+}
+class Nodo{
+    public final Nodo parent;
+    public final ArrayList<Nodo> sons;
+    public final Grid state;
+    public double peso = 0;
+    public int movimiento;
 
-        // ...
-        return posicion;
+    public Nodo(Nodo parent, Grid state) {
+        this.parent = parent;
+        sons = new ArrayList<>();
+        this.state = new Grid(state);
+    }
 
-    } // turno
+    public Nodo(Nodo parent, Grid state, int movimiento) {
+        this.parent = parent;
+        sons = new ArrayList<>();
+        this.state = new Grid(state);
+        this.movimiento = movimiento;
+    }
 
-} // MiniMaxRestrainedPlayer
+    public Grid getState() {
+        return state;
+    }
+
+    public void visualizaHijos(){
+        for (int i = 0; i < this.sons.size(); i++) {
+            System.out.println("hijo:" + i + " valor:" + sons.get(i).peso);
+        }
+    }
+
+    public void setSons(int jugador,int nivel){
+        //Comprobamos que no haya ganado nadie
+        if (state.checkWin() != 0) {
+            peso = state.checkWin() == 1 ? 16 : -16;
+            return;
+        }
+        //Comprobamos que no este lleno
+        if (state.getCount(jugador) + state.getCount(-jugador) == state.getColumnas() * state.getFilas()) {
+            return;
+        }
+        if(nivel == NIVEL_MAX){
+            peso = -jugador * Math.pow(getBigger(-jugador),2);
+            return;
+        }
+        //Generación Base
+        for (int i = 0; i < state.columnas; ++i) {
+            Grid aux = new Grid(state);
+            if (aux.set(i, jugador) >= 0) {
+                sons.add(new Nodo(this, aux, i));
+            }
+        }
+        //Asígnación de los hijos
+        for (int i = 0; i < sons.size(); ++i) {
+            sons.get(i).setSons(-jugador,nivel + 1);
+        }
+        //Gestionar los pesos
+        int posMin = 0;
+        int posMax = 0;
+        for (int i = 0; i < sons.size(); ++i) {
+            posMin = sons.get(i).peso < sons.get(posMin).peso?i:posMin;
+            posMax = sons.get(i).peso < sons.get(posMax).peso?i:posMax;
+        }
+        peso = jugador == 1? sons.get(posMax).peso:sons.get(posMin).peso;
+    }
+    public int getBigger(int jugador){
+        int bigger = 0;
+        int aux = 0;
+        //Comprobar vertical
+        for(int i = 0; i < state.columnas; ++i){
+            for (int j = 0; j < state.filas && state.get(state.filas - 1 - j,i) != 0;++j){
+                int a =  state.get(state.filas - 1 - j,i);
+                aux = state.get(state.filas - 1 - j, i) == jugador? aux + 1: 0;
+                bigger = Math.max(bigger, aux);
+            }
+        }
+        aux = 0;
+        //Comprobar horizontal
+        for(int i = 0; i < state.filas; ++i){
+            for (int j = 0; j < state.columnas && state.get(state.filas - 1 - i,j) != 0;++j){
+                aux = state.get(state.filas - 1 - i,j) == jugador? aux + 1: 0;
+                bigger = Math.max(bigger, aux);
+            }
+        }
+        aux=compruebadiagonalDerecha(jugador);
+        bigger =  Math.max(bigger, aux);
+        aux=compruebadiagonalIzquierda(jugador);
+        bigger = Math.max(bigger, aux);
+        return bigger;
+    }
+    public int compruebadiagonalDerecha(int jugador){
+        int x = 0;
+        int y = 0;
+        int bigger = 0;
+        int aux = 0;
+        while (y < state.columnas){
+            int a = x;
+            int b = y;
+
+            while (a < state.filas && b < state.columnas){
+                aux= state.get(state.filas- 1 - a, b) == jugador?++aux: 0;
+                bigger = Math.max(bigger, aux);
+                a++;
+                b++;
+            }
+            y++;
+        }
+        y = 0;
+        int a;
+        int b;
+        while (x < state.filas){
+            a = x;
+            b = y;
+            while (a < state.filas && b < state.columnas){
+                aux= state.get(state.filas- 1 - a, b) == jugador?++aux: 0;
+                bigger = Math.max(bigger, aux);
+                a++;
+                b++;
+            }
+            x++;
+        }
+        return  bigger;
+    }
+    public int compruebadiagonalIzquierda(int jugador){
+        int x = 0;
+        int y = state.columnas;
+        int bigger = 0;
+        int aux = 0;
+        while (y >= 0){
+            int a = x;
+            int b = y;
+
+            while (a < state.filas && b < state.columnas){
+                aux= state.get(state.filas- 1 - a,b) == jugador?++aux: 0;
+                bigger = Math.max(bigger, aux);
+                a--;
+                b++;
+            }
+            y--;
+        }
+        y = 0;
+        int a;
+        int b;
+        while (x < state.filas){
+            a = x;
+            b = y;
+            while (a < state.filas && b < state.columnas){
+                aux= state.get(state.filas- 1 - a,b) == jugador?++aux: 0;
+                bigger = Math.max(bigger, aux);
+                a--;
+                b++;
+            }
+            x++;
+        }
+        return  bigger;
+    }
+}
+
