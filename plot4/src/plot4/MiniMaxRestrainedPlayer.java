@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import static plot4.Constantes.*;
 
 interface Constantes{
-    int NIVEL_MAX = 8; //Nivel máximo
+    int NIVEL_MAX = 9; //Nivel máximo
 }
 
 /**
@@ -107,7 +107,7 @@ class Nodo{
     public void setSons(int jugador,int nivel){
         //Comprobamos que no haya ganado nadie
         if (state.checkWin() != 0) {
-            peso = state.checkWin() == 1 ? 16 : -16;
+            peso = -jugador*Math.pow(getBigger(state.checkWin()),2);
             return;
         }
         //Comprobamos que no este lleno
@@ -130,11 +130,12 @@ class Nodo{
             sons.get(i).setSons(-jugador,nivel + 1);
         }
         //Gestionar los pesos
+        // Falla aqui
         int posMin = 0;
         int posMax = 0;
-        for (int i = 0; i < sons.size(); ++i) {
+        for (int i = 1; i < sons.size(); ++i) {
             posMin = sons.get(i).peso < sons.get(posMin).peso?i:posMin;
-            posMax = sons.get(i).peso < sons.get(posMax).peso?i:posMax;
+            posMax = sons.get(i).peso > sons.get(posMax).peso?i:posMax;
         }
         peso = jugador == 1? sons.get(posMax).peso:sons.get(posMin).peso;
     }
@@ -157,9 +158,9 @@ class Nodo{
                 bigger = Math.max(bigger, aux);
             }
         }
-        aux=compruebadiagonalDerecha(jugador);
+        aux = compruebadiagonalDerecha(jugador);
         bigger =  Math.max(bigger, aux);
-        aux=compruebadiagonalIzquierda(jugador);
+        aux = compruebadiagonalIzquierda(jugador);
         bigger = Math.max(bigger, aux);
         return bigger;
     }
