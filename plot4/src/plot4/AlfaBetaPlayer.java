@@ -7,6 +7,8 @@ package plot4;
 
 import java.util.ArrayList;
 
+import static plot4.ConstantesAlfaBeta.*;
+
 
 /**
  *
@@ -23,8 +25,10 @@ import java.util.ArrayList;
  *
  */
 interface ConstantesAlfaBeta{
-    int NIVEL_MAX = 12;
+    int NIVEL_MAX = 10;
     int NIVEL_PODA = 3;
+
+    int CONECTA = 9;
 }
 
 public class AlfaBetaPlayer extends Player {
@@ -125,7 +129,7 @@ public class AlfaBetaPlayer extends Player {
             if (state.getCount(jugador) + state.getCount(-jugador) == state.getColumnas() * state.getFilas()) {
                 return;
             }
-            if(nivel == ConstantesAlfaBeta.NIVEL_MAX){
+            if(nivel == NIVEL_MAX){
                 peso = (float) (-jugador * Math.pow(getBigger(-jugador),2));
                 return;
             }
@@ -137,13 +141,13 @@ public class AlfaBetaPlayer extends Player {
                     NodoAlfaBeta candidato = new NodoAlfaBeta(this, aux, i);
                     sons.add(candidato);
                     candidato.setSons(-jugador,nivel + 1);
-                    if(candidato.peso*jugador == 16){
+                    if(candidato.peso*jugador == CONECTA){
                         if(sons.size() > 1){
                             poda(jugador,nivel);
                         }
                         break;
                     }
-                    if(nivel >= ConstantesAlfaBeta.NIVEL_PODA && sons.size() > 1){
+                    if(nivel >= NIVEL_PODA && sons.size() > 1){
                         poda(jugador,nivel);
                     }
                 }

@@ -11,6 +11,7 @@ import static plot4.Constantes.*;
 
 interface Constantes{
     int NIVEL_MAX = 9; //Nivel máximo
+    int CONECTA = 9;
 }
 
 /**
@@ -134,7 +135,7 @@ class Nodo{
                 Nodo candidato =new Nodo(this, aux, i);
                 sons.add(candidato);
                 candidato.setSons(-jugador,nivel + 1);
-                if(candidato.peso*jugador == 9){
+                if(candidato.peso*jugador == CONECTA){
                     break;
                 }
             }
