@@ -24,8 +24,8 @@ import static plot4.Constantes.NIVEL_MAX;
  *
  */
 interface ConstantesAlfaBeta{
-    int NIVEL_MAX = 10; //Nivel máximo
-    int NIVEL_PODA = 3;
+    int NIVEL_MAX = 10;
+    int NIVEL_PODA = 6;
 }
 
 public class AlfaBetaPlayer extends Player {
@@ -64,6 +64,8 @@ public class AlfaBetaPlayer extends Player {
             NodoAlfaBeta aux = nodoActual;
             nodoActual = nodoActual.sons.get(posicion);
             //Devolvemos movimiento
+            System.out.println("Jugadas del siguiente jugador");
+            nodoActual.visualizaHijos();
             return aux.sons.get(posicion).movimiento;
         }else{ //Si no tenemos hijos escogemos aleatoriamente una columna
             return getRandomColumn(tablero);
@@ -83,7 +85,7 @@ public class AlfaBetaPlayer extends Player {
         public final NodoAlfaBeta parent;
         public final ArrayList<NodoAlfaBeta> sons;
         public final Grid state;
-        public double peso = 0;
+        public float peso = 0;
         public int movimiento;
 
         public NodoAlfaBeta(NodoAlfaBeta parent, Grid state) {
@@ -105,14 +107,14 @@ public class AlfaBetaPlayer extends Player {
 
         public void visualizaHijos(){
             for (int i = 0; i < this.sons.size(); i++) {
-                System.out.println("hijo:" + i + " valor:" + sons.get(i).peso);
+                System.out.println("hijo:" + i + " valor:" + sons.get(i).peso + "\njugada:" + sons.get(i).movimiento);
             }
         }
 
         public void setSons(int jugador,int nivel){
             //Comprobamos que no haya ganado nadie
             if (state.checkWin() != 0) {
-                peso = -jugador*Math.pow(getBigger(state.checkWin()),2);
+                peso = (float) (-jugador*Math.pow(getBigger(state.checkWin()),2));
                 return;
             }
             //Comprobamos que no este lleno
@@ -120,7 +122,7 @@ public class AlfaBetaPlayer extends Player {
                 return;
             }
             if(nivel == ConstantesAlfaBeta.NIVEL_MAX){
-                peso = -jugador * Math.pow(getBigger(-jugador),2);
+                peso = (float) (-jugador * Math.pow(getBigger(-jugador),2));
                 return;
             }
             //Generación Base
@@ -143,7 +145,7 @@ public class AlfaBetaPlayer extends Player {
                 posMin = sons.get(i).peso < sons.get(posMin).peso?i:posMin;
                 posMax = sons.get(i).peso > sons.get(posMax).peso?i:posMax;
             }
-            peso = jugador == 1? sons.get(posMax).peso:sons.get(posMin).peso;
+            peso = (float) (jugador == 1? sons.get(posMax).peso/1.2:sons.get(posMin).peso/1.2);
         }
         public int getBigger(int jugador){
             int bigger = 0;
@@ -238,12 +240,16 @@ public class AlfaBetaPlayer extends Player {
         }
         public void poda(int jugador){
             if(jugador == 1){
-                if(sons.get(0).peso < sons.get(1).peso){
+                if(sons.get(0).peso >= sons.get(1).peso){
+                    sons.remove(1);
+                }else {
                     sons.remove(0);
                 }
             }else {
-                if(sons.get(0).peso < sons.get(1).peso){
+                if(sons.get(0).peso <= sons.get(1).peso){
                     sons.remove(1);
+                }else {
+                    sons.remove(0);
                 }
             }
         }

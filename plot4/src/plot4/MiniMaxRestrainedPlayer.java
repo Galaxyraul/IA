@@ -57,6 +57,8 @@ public class MiniMaxRestrainedPlayer extends Player {
             Nodo aux = nodoActual;
             nodoActual = nodoActual.sons.get(posicion);
             //Devolvemos movimiento
+            System.out.println("Posibles jugadas siguientes");
+            nodoActual.visualizaHijos();
             return aux.sons.get(posicion).movimiento;
         }else{ //Si no tenemos hijos escogemos aleatoriamente una columna
             return getRandomColumn(tablero);
@@ -78,7 +80,7 @@ class Nodo{
     public final Nodo parent;
     public final ArrayList<Nodo> sons;
     public final Grid state;
-    public double peso = 0;
+    public float peso = 0;
     public int movimiento;
 
     public int jugador = 0;
@@ -109,7 +111,7 @@ class Nodo{
     public void setSons(int jugador,int nivel){
         //Comprobamos que no haya ganado nadie
         if (state.checkWin() != 0) {
-            peso = -jugador*Math.pow(getBigger(state.checkWin()),2);
+            peso = (float) (-jugador*Math.pow(getBigger(state.checkWin()),2));
             return;
         }
         //Comprobamos que no este lleno
@@ -117,7 +119,7 @@ class Nodo{
             return;
         }
         if(nivel == NIVEL_MAX){
-            peso = -jugador * Math.pow(getBigger(-jugador),2);
+            peso = (float) (-jugador * Math.pow(getBigger(-jugador),2));
             return;
         }
         this.jugador = jugador;
@@ -133,14 +135,13 @@ class Nodo{
             sons.get(i).setSons(-jugador,nivel + 1);
         }
         //Gestionar los pesos
-        // Falla aqui
         int posMin = 0;
         int posMax = 0;
         for (int i = 1; i < sons.size(); ++i) {
             posMin = sons.get(i).peso < sons.get(posMin).peso?i:posMin;
             posMax = sons.get(i).peso > sons.get(posMax).peso?i:posMax;
         }
-        peso = jugador == 1? sons.get(posMax).peso:sons.get(posMin).peso;
+        peso = (float) (jugador == 1? sons.get(posMax).peso/1.2:sons.get(posMin).peso/1.2);
     }
     public int getBigger(int jugador){
         int bigger = 0;
