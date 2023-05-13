@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import static plot4.Constantes.*;
 
 interface Constantes{
-    int NIVEL_MAX = 8; //Nivel máximo
+    int NIVEL_MAX = 9; //Nivel máximo
 }
 
 /**
@@ -51,6 +51,7 @@ public class MiniMaxRestrainedPlayer extends Player {
                 }
             }
         }
+        System.out.println("Posibles jugadas siguientes para:" + nodoActual.jugador);
         nodoActual.visualizaHijos();
         if(nodoActual.sons.size() != 0) { //Si tenemos hijos buscamos el más favorable en nuestro caso el menor
             int posicion = 0;
@@ -60,7 +61,7 @@ public class MiniMaxRestrainedPlayer extends Player {
             Nodo aux = nodoActual;
             nodoActual = nodoActual.sons.get(posicion);
             //Devolvemos movimiento
-            System.out.println("Posibles jugadas siguientes");
+            System.out.println("Posibles jugadas siguientes para:" + nodoActual.jugador);
             nodoActual.visualizaHijos();
             return aux.sons.get(posicion).movimiento;
         }else{ //Si no tenemos hijos escogemos aleatoriamente una columna
@@ -107,7 +108,7 @@ class Nodo{
 
     public void visualizaHijos(){
         for (int i = 0; i < this.sons.size(); i++) {
-            System.out.println("hijo:" + i + " valor:" + sons.get(i).peso);
+            System.out.println("hijo:" + i + " valor:" + sons.get(i).peso + "\njugada:" + sons.get(i).movimiento);
         }
     }
 
@@ -133,7 +134,7 @@ class Nodo{
                 Nodo candidato =new Nodo(this, aux, i);
                 sons.add(candidato);
                 candidato.setSons(-jugador,nivel + 1);
-                if(candidato.peso*jugador == 16){
+                if(candidato.peso*jugador == 9){
                     break;
                 }
             }
@@ -149,19 +150,21 @@ class Nodo{
     }
     public int getBigger(int jugador){
         int bigger = 0;
-        int aux = 0;
+        int aux;
         //Comprobar vertical
         for(int i = 0; i < state.columnas; ++i){
+            aux = 0;
             for (int j = 0; j < state.filas && state.get(state.filas - 1 - j,i) != 0;++j){
                 int a =  state.get(state.filas - 1 - j,i);
                 aux = state.get(state.filas - 1 - j, i) == jugador? aux + 1: 0;
                 bigger = Math.max(bigger, aux);
             }
         }
-        aux = 0;
         //Comprobar horizontal
         for(int i = 0; i < state.filas; ++i){
+            aux = 0;
             for (int j = 0; j < state.columnas && state.get(state.filas - 1 - i,j) != 0;++j){
+                int a =  state.get(state.filas - 1 - i,j);
                 aux = state.get(state.filas - 1 - i,j) == jugador? aux + 1: 0;
                 bigger = Math.max(bigger, aux);
             }
@@ -176,11 +179,11 @@ class Nodo{
         int x = 0;
         int y = 0;
         int bigger = 0;
-        int aux = 0;
+        int aux;
         while (y < state.columnas){
             int a = x;
             int b = y;
-
+            aux = 0;
             while (a < state.filas && b < state.columnas){
                 aux= state.get(state.filas- 1 - a, b) == jugador?++aux: 0;
                 bigger = Math.max(bigger, aux);
@@ -195,6 +198,7 @@ class Nodo{
         while (x < state.filas){
             a = x;
             b = y;
+            aux = 0;
             while (a < state.filas && b < state.columnas){
                 aux= state.get(state.filas- 1 - a, b) == jugador?++aux: 0;
                 bigger = Math.max(bigger, aux);

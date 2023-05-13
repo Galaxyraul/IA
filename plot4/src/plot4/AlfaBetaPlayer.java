@@ -23,8 +23,8 @@ import java.util.ArrayList;
  *
  */
 interface ConstantesAlfaBeta{
-    int NIVEL_MAX = 11;
-    int NIVEL_PODA = 5;
+    int NIVEL_MAX = 12;
+    int NIVEL_PODA = 3;
 }
 
 public class AlfaBetaPlayer extends Player {
@@ -160,18 +160,19 @@ public class AlfaBetaPlayer extends Player {
         }
         public int getBigger(int jugador){
             int bigger = 0;
-            int aux = 0;
+            int aux;
             //Comprobar vertical
             for(int i = 0; i < state.columnas; ++i){
+                aux = 0;
                 for (int j = 0; j < state.filas && state.get(state.filas - 1 - j,i) != 0;++j){
                     int a =  state.get(state.filas - 1 - j,i);
                     aux = state.get(state.filas - 1 - j, i) == jugador? aux + 1: 0;
                     bigger = Math.max(bigger, aux);
                 }
             }
-            aux = 0;
             //Comprobar horizontal
             for(int i = 0; i < state.filas; ++i){
+                aux = 0;
                 for (int j = 0; j < state.columnas && state.get(state.filas - 1 - i,j) != 0;++j){
                     aux = state.get(state.filas - 1 - i,j) == jugador? aux + 1: 0;
                     bigger = Math.max(bigger, aux);
@@ -187,11 +188,11 @@ public class AlfaBetaPlayer extends Player {
             int x = 0;
             int y = 0;
             int bigger = 0;
-            int aux = 0;
+            int aux;
             while (y < state.columnas){
                 int a = x;
                 int b = y;
-
+                aux = 0;
                 while (a < state.filas && b < state.columnas){
                     aux= state.get(state.filas- 1 - a, b) == jugador?++aux: 0;
                     bigger = Math.max(bigger, aux);
@@ -206,6 +207,7 @@ public class AlfaBetaPlayer extends Player {
             while (x < state.filas){
                 a = x;
                 b = y;
+                aux = 0;
                 while (a < state.filas && b < state.columnas){
                     aux= state.get(state.filas- 1 - a, b) == jugador?++aux: 0;
                     bigger = Math.max(bigger, aux);
@@ -220,11 +222,11 @@ public class AlfaBetaPlayer extends Player {
             int x = 0;
             int y = state.columnas;
             int bigger = 0;
-            int aux = 0;
+            int aux;
             while (y >= 0){
                 int a = x;
                 int b = y;
-
+                aux = 0;
                 while (a < state.filas && b < state.columnas){
                     aux= state.get(state.filas- 1 - a,b) == jugador?++aux: 0;
                     bigger = Math.max(bigger, aux);
@@ -239,6 +241,7 @@ public class AlfaBetaPlayer extends Player {
             while (x < state.filas){
                 a = x;
                 b = y;
+                aux = 0;
                 while (a < state.filas && b < state.columnas){
                     aux= state.get(state.filas- 1 - a,b) == jugador?++aux: 0;
                     bigger = Math.max(bigger, aux);
