@@ -38,7 +38,10 @@ public class MiniMaxPlayer extends Player {
         //Comprobamos que el arbol no se ha creado
         if (nodoActual == null){
             nodoActual = new Node(null,tablero);
+            long start = System.nanoTime();
             nodoActual.setSons(-1);
+            long end = System.nanoTime() - start;
+            System.out.println("Ha tardado " + end/1e9 + "s en generar el arbol");
         }
         //Nos vamos al estado resultante de haber jugado el otro jugador
         if(!tablerosIguales(nodoActual.getState(),tablero)){

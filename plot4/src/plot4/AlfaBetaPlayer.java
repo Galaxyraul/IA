@@ -7,7 +7,6 @@ package plot4;
 
 import java.util.ArrayList;
 
-import static plot4.Constantes.NIVEL_MAX;
 
 /**
  *
@@ -24,8 +23,8 @@ import static plot4.Constantes.NIVEL_MAX;
  *
  */
 interface ConstantesAlfaBeta{
-    int NIVEL_MAX = Integer.MAX_VALUE;
-    int NIVEL_PODA = 6;
+    int NIVEL_MAX = 11;
+    int NIVEL_PODA = 5;
 }
 
 public class AlfaBetaPlayer extends Player {
