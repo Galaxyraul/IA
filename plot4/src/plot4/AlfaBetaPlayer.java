@@ -25,10 +25,10 @@ import static plot4.ConstantesAlfaBeta.*;
  *
  */
 interface ConstantesAlfaBeta{
-    int NIVEL_MAX = 10;
-    int NIVEL_PODA = 3;
+    int NIVEL_MAX = 10; //Nivel máximo de profundidad que se puede alcanzar
+    int NIVEL_PODA = 3; //Nivel a partir del cual se comenzará a podar
 
-    int CONECTA = 9;
+    int CONECTA = 16;
 }
 
 public class AlfaBetaPlayer extends Player {
@@ -47,9 +47,9 @@ public class AlfaBetaPlayer extends Player {
         //Comprobamos que el arbol no se ha creado
         if (nodoActual == null){
             nodoActual = new NodoAlfaBeta(null,tablero); //Nodo raiz
-            long start = System.nanoTime();
+            long start = System.nanoTime();//Tiempo de inicio para la saber cuanto tarda en generar el arbol
             nodoActual.setSons(-1,1);
-            long end = System.nanoTime() - start;
+            long end = System.nanoTime() - start;//Tiempo final
             System.out.println("Ha tardado " + end/1e9 + "s en generar el arbol");
         }
         //Nos vamos al estado resultante de haber jugado el otro jugador
@@ -65,14 +65,16 @@ public class AlfaBetaPlayer extends Player {
         nodoActual.visualizaHijos();
         if(nodoActual.sons.size() != 0) { //Si tenemos hijos buscamos el más favorable en nuestro caso el menor
             int posicion = 0;
+            //Buscamos el hijo con menor peso para maximizar
             for (int i = 0; i < nodoActual.sons.size(); ++i) {
                 posicion = nodoActual.sons.get(i).peso < nodoActual.sons.get(posicion).peso?i:posicion;
             }
             NodoAlfaBeta aux = nodoActual;
             nodoActual = nodoActual.sons.get(posicion);
-            //Devolvemos movimiento
+            //Mostramos jugadas del jugador para que pueda elegir siempre la mejor
             System.out.println("Jugadas del jugador:" + nodoActual.jugador);
             nodoActual.visualizaHijos();
+            //Devolvemos movimiento
             return aux.sons.get(posicion).movimiento;
         }else{ //Si no tenemos hijos escogemos aleatoriamente una columna
             return getRandomColumn(tablero);
@@ -129,7 +131,9 @@ public class AlfaBetaPlayer extends Player {
             if (state.getCount(jugador) + state.getCount(-jugador) == state.getColumnas() * state.getFilas()) {
                 return;
             }
+            //Comprobamos que no se ha alcanzado el nivel máximo
             if(nivel == NIVEL_MAX){
+                //Si llegamos al nivel máximo de profundidad establecemos el valor que el mayor número de fichas conectadas
                 peso = (float) (-jugador * Math.pow(getBigger(-jugador),2));
                 return;
             }
@@ -140,15 +144,18 @@ public class AlfaBetaPlayer extends Player {
                 if (aux.set(i, jugador) >= 0) {
                     NodoAlfaBeta candidato = new NodoAlfaBeta(this, aux, i);
                     sons.add(candidato);
+                    //Generamos los hijos antes de añadir todos los del nivel para poder tomar un valor de referencia para podar antes de que e aumente mucho el arbol
                     candidato.setSons(-jugador,nivel + 1);
+                    //Comprobamos si el nodo añadido es hoja para parar de generar en este nivel
                     if(candidato.peso*jugador == CONECTA){
                         if(sons.size() > 1){
-                            poda(jugador,nivel);
+                            poda(jugador);
                         }
                         break;
                     }
+                    //Si tenemos más de 1 hijo generado podemos compararlos y conservar aquel que máximice el nivel
                     if(nivel >= NIVEL_PODA && sons.size() > 1){
-                        poda(jugador,nivel);
+                        poda(jugador);
                     }
                 }
             }
@@ -160,6 +167,7 @@ public class AlfaBetaPlayer extends Player {
                 posMin = sons.get(i).peso < sons.get(posMin).peso?i:posMin;
                 posMax = sons.get(i).peso > sons.get(posMax).peso?i:posMax;
             }
+            //En función del jugador que sea su turno escogemos el mayor o el menor y lo dividimos entre 1.2 como penalización por nivel
             peso = (float) (jugador == 1? sons.get(posMax).peso/1.2:sons.get(posMin).peso/1.2);
         }
         public int getBigger(int jugador){
@@ -256,7 +264,8 @@ public class AlfaBetaPlayer extends Player {
             }
             return  bigger;
         }
-        public void poda(int jugador,int nivel){
+        public void poda(int jugador){
+            //Se elige en función del jugador el valor que maximiza el nivel
             if(jugador == 1){
                 if(sons.get(0).peso >= sons.get(1).peso){
                     sons.remove(1);
