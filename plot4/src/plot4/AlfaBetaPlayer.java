@@ -126,12 +126,10 @@ public class AlfaBetaPlayer extends Player {
             if (state.getCount(jugador) + state.getCount(-jugador) == state.getColumnas() * state.getFilas()) {
                 return;
             }
-            /*
             if(nivel == ConstantesAlfaBeta.NIVEL_MAX){
                 peso = (float) (-jugador * Math.pow(getBigger(-jugador),2));
                 return;
             }
-            */
             //Generación Base
             this.jugador = jugador;
             for (int i = 0; i < state.columnas; ++i) {
