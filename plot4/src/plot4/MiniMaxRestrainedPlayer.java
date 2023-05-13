@@ -127,12 +127,13 @@ class Nodo{
         for (int i = 0; i < state.columnas; ++i) {
             Grid aux = new Grid(state);
             if (aux.set(i, jugador) >= 0) {
-                sons.add(new Nodo(this, aux, i));
+                Nodo candidato =new Nodo(this, aux, i);
+                sons.add(candidato);
+                candidato.setSons(-jugador,nivel + 1);
+                if(candidato.peso*jugador == 16){
+                    break;
+                }
             }
-        }
-        //Asígnación de los hijos
-        for (int i = 0; i < sons.size(); ++i) {
-            sons.get(i).setSons(-jugador,nivel + 1);
         }
         //Gestionar los pesos
         int posMin = 0;

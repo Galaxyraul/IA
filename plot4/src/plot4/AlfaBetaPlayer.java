@@ -24,7 +24,7 @@ import static plot4.Constantes.NIVEL_MAX;
  *
  */
 interface ConstantesAlfaBeta{
-    int NIVEL_MAX = 10;
+    int NIVEL_MAX = Integer.MAX_VALUE;
     int NIVEL_PODA = 6;
 }
 
@@ -44,7 +44,10 @@ public class AlfaBetaPlayer extends Player {
         //Comprobamos que el arbol no se ha creado
         if (nodoActual == null){
             nodoActual = new NodoAlfaBeta(null,tablero); //Nodo raiz
+            long start = System.nanoTime();
             nodoActual.setSons(-1,1);
+            long end = System.nanoTime() - start;
+            System.out.println("Ha tardado " + end/1e9 + "s en generar el arbol");
         }
         //Nos vamos al estado resultante de haber jugado el otro jugador
         if(!tablerosIguales(nodoActual.getState(),tablero)){
@@ -55,6 +58,7 @@ public class AlfaBetaPlayer extends Player {
                 }
             }
         }
+        System.out.println("Jugadas del jugador:" + nodoActual.jugador);
         nodoActual.visualizaHijos();
         if(nodoActual.sons.size() != 0) { //Si tenemos hijos buscamos el más favorable en nuestro caso el menor
             int posicion = 0;
@@ -64,7 +68,7 @@ public class AlfaBetaPlayer extends Player {
             NodoAlfaBeta aux = nodoActual;
             nodoActual = nodoActual.sons.get(posicion);
             //Devolvemos movimiento
-            System.out.println("Jugadas del siguiente jugador");
+            System.out.println("Jugadas del jugador:" + nodoActual.jugador);
             nodoActual.visualizaHijos();
             return aux.sons.get(posicion).movimiento;
         }else{ //Si no tenemos hijos escogemos aleatoriamente una columna
@@ -86,6 +90,7 @@ public class AlfaBetaPlayer extends Player {
         public final ArrayList<NodoAlfaBeta> sons;
         public final Grid state;
         public float peso = 0;
+        private int jugador;
         public int movimiento;
 
         public NodoAlfaBeta(NodoAlfaBeta parent, Grid state) {
@@ -121,19 +126,28 @@ public class AlfaBetaPlayer extends Player {
             if (state.getCount(jugador) + state.getCount(-jugador) == state.getColumnas() * state.getFilas()) {
                 return;
             }
+            /*
             if(nivel == ConstantesAlfaBeta.NIVEL_MAX){
                 peso = (float) (-jugador * Math.pow(getBigger(-jugador),2));
                 return;
             }
+            */
             //Generación Base
+            this.jugador = jugador;
             for (int i = 0; i < state.columnas; ++i) {
                 Grid aux = new Grid(state);
                 if (aux.set(i, jugador) >= 0) {
                     NodoAlfaBeta candidato = new NodoAlfaBeta(this, aux, i);
                     sons.add(candidato);
                     candidato.setSons(-jugador,nivel + 1);
+                    if(candidato.peso*jugador == 16){
+                        if(sons.size() > 1){
+                            poda(jugador,nivel);
+                        }
+                        break;
+                    }
                     if(nivel >= ConstantesAlfaBeta.NIVEL_PODA && sons.size() > 1){
-                        poda(jugador);
+                        poda(jugador,nivel);
                     }
                 }
             }
@@ -238,7 +252,7 @@ public class AlfaBetaPlayer extends Player {
             }
             return  bigger;
         }
-        public void poda(int jugador){
+        public void poda(int jugador,int nivel){
             if(jugador == 1){
                 if(sons.get(0).peso >= sons.get(1).peso){
                     sons.remove(1);
