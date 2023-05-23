@@ -11,6 +11,7 @@ import static plot4.Constantes.*;
 
 interface Constantes{
     int NIVEL_MAX = 8; //Nivel máximo
+    int NIVEL_EXPANSION = 3;
     int CONECTA = 16; //Indicador del maximo valor que puede tener un nodo
 }
 
@@ -37,7 +38,7 @@ public class MiniMaxRestrainedPlayer extends Player {
     public int turno(Grid tablero, int conecta) {
         //Comprobamos que el arbol no se ha creado
         if (nodoActual == null){
-            nodoActual = new Nodo(null,tablero); //Nodo raiz
+            nodoActual = new Nodo(tablero,0); //Nodo raiz
             long start = System.nanoTime();//Tiempo de inicio para la saber cuanto tarda en generar el arbol
             nodoActual.setSons(-1,1);
             long end = System.nanoTime() - start; //Tiempo final
@@ -54,19 +55,18 @@ public class MiniMaxRestrainedPlayer extends Player {
         }
         System.out.println("Posibles jugadas siguientes para:" + nodoActual.jugador);
         nodoActual.visualizaHijos();
-        if(nodoActual.sons.size() != 0) { //Si tenemos hijos buscamos el más favorable en nuestro caso el menor
-            int posicion = 0;
-            //Buscamos el hijo con menor peso para maximizar
-            for (int i = 0; i < nodoActual.sons.size(); ++i) {
-                posicion = nodoActual.sons.get(i).peso < nodoActual.sons.get(posicion).peso?i:posicion;
-            }
-            Nodo aux = nodoActual;
-            nodoActual = nodoActual.sons.get(posicion);
-            //Devolvemos movimiento
-            return aux.sons.get(posicion).movimiento;
-        }else{ //Si no tenemos hijos escogemos aleatoriamente una columna
-            return getRandomColumn(tablero);
+        if(nodoActual.nivel >= NIVEL_EXPANSION){
+            nodoActual.regenera(0);
         }
+        int posicion = 0;
+        //Buscamos el hijo con menor peso para maximizar
+        for (int i = 0; i < nodoActual.sons.size(); ++i) {
+            posicion = nodoActual.sons.get(i).peso < nodoActual.sons.get(posicion).peso?i:posicion;
+        }
+        Nodo aux = nodoActual;
+        nodoActual = nodoActual.sons.get(posicion);
+        //Devolvemos movimiento
+        return aux.sons.get(posicion).movimiento;
     }
     
     public boolean tablerosIguales(Grid hijo,Grid tablero){
@@ -78,28 +78,27 @@ public class MiniMaxRestrainedPlayer extends Player {
         }
         return iguales;
     }
-
 }
 class Nodo{
-    public final Nodo parent;
     public final ArrayList<Nodo> sons;
     public final Grid state;
     public float peso = 0;
     public int movimiento;
 
     public int jugador = 0;
+    public int nivel = 0;
 
-    public Nodo(Nodo parent, Grid state) {
-        this.parent = parent;
+    public Nodo(Grid state,int nivel) {
         sons = new ArrayList<>();
         this.state = new Grid(state);
+        this.nivel = nivel;
     }
 
-    public Nodo(Nodo parent, Grid state, int movimiento) {
-        this.parent = parent;
+    public Nodo( Grid state, int movimiento,int nivel) {
         sons = new ArrayList<>();
         this.state = new Grid(state);
         this.movimiento = movimiento;
+        this.nivel = nivel;
     }
 
     public Grid getState() {
@@ -111,8 +110,24 @@ class Nodo{
             System.out.println("hijo:" + i + " valor:" + sons.get(i).peso + "\njugada:" + sons.get(i).movimiento);
         }
     }
-
+    public void regenera(int nivel){
+        this.nivel = nivel;
+        if(sons.size() == 0 && jugador * peso != CONECTA){
+            this.setSons(jugador,nivel + 1);
+        }else {
+            for (int i = 0; i < sons.size(); ++i) {
+                sons.get(i).regenera(nivel + 1);
+            }
+            if(jugador == 1){
+                maximiza();
+            }else {
+                minimiza();
+            }
+        }
+    }
     public void setSons(int jugador,int nivel){
+        this.jugador = jugador;
+        this.nivel = nivel;
         //Comprobamos que no haya ganado nadie
         if (state.checkWin() != 0) {
             peso = (float) (-jugador*Math.pow(getBigger(state.checkWin()),2));
@@ -133,7 +148,7 @@ class Nodo{
         for (int i = 0; i < state.columnas; ++i) {
             Grid aux = new Grid(state);
             if (aux.set(i, jugador) >= 0) {
-                Nodo candidato =new Nodo(this, aux, i);
+                Nodo candidato = new Nodo(aux, i,nivel+1);
                 sons.add(candidato);
                 //Generamos los hijos antes de añadir todos los del nivel para poder parar en caso de que uno sea hoja
                 candidato.setSons(-jugador,nivel + 1);
@@ -144,14 +159,25 @@ class Nodo{
             }
         }
         //Para gestionar los pesos buscamos el nodo con mayor y el nodo con menor peso
-        int posMin = 0;
+        if(jugador == 1){
+            maximiza();
+        }else {
+            minimiza();
+        }
+    }
+    void maximiza(){
         int posMax = 0;
         for (int i = 1; i < sons.size(); ++i) {
-            posMin = sons.get(i).peso < sons.get(posMin).peso?i:posMin;
             posMax = sons.get(i).peso > sons.get(posMax).peso?i:posMax;
         }
-        //En función del jugador que sea su turno escogemos el mayor o el menor y lo dividimos entre 1.2 como penalización por nivel
-        peso = (float) (jugador == 1? sons.get(posMax).peso/1.2:sons.get(posMin).peso/1.2);
+        peso = (float) (sons.get(posMax).peso / 1.2);
+    }
+    void minimiza(){
+        int posMin = 0;
+        for (int i = 1; i < sons.size(); ++i) {
+            posMin = sons.get(i).peso < sons.get(posMin).peso?i:posMin;
+        }
+        peso = (float) (sons.get(posMin).peso / 1.2);
     }
     public int getBigger(int jugador){
         int bigger = 0;

@@ -37,7 +37,7 @@ public class MiniMaxPlayer extends Player {
     public int turno(Grid tablero, int conecta) {
         //Comprobamos que el arbol no se ha creado
         if (nodoActual == null){
-            nodoActual = new Node(null,tablero);
+            nodoActual = new Node(tablero);
             long start = System.nanoTime();
             nodoActual.setSons(-1);
             long end = System.nanoTime() - start;
@@ -78,20 +78,17 @@ public class MiniMaxPlayer extends Player {
     
 }
 class Node{
-    public final Node parent;
     public final ArrayList<Node> sons;
     public final Grid state;
     public int mark = 0;
     public int movimiento;
 
-    public Node(Node parent, Grid state) {
-        this.parent = parent;
+    public Node(Grid state) {
         sons = new ArrayList<>();
         this.state = new Grid(state);
     }
 
-    public Node(Node parent,Grid state, int movimiento) {
-        this.parent = parent;
+    public Node(Grid state, int movimiento) {
         sons = new ArrayList<>();
         this.state = new Grid(state);
         this.movimiento = movimiento;
@@ -111,27 +108,23 @@ class Node{
             mark = state.checkWin() == 1?1:-1;
             return;
         }
-        //Comprobamos que no este lleno
         if(state.getCount(jugador) + state.getCount(-jugador) == state.getColumnas() * state.getFilas()){return;}
         //Generación Base
         for(int i = 0; i < state.columnas;++i){
             Grid aux = new Grid(state);
             if(aux.set(i,jugador) >= 0 ){
-                sons.add(new Node(this,aux,i));
+                Node nuevo = new Node(aux,i);
+                nuevo.setSons(-jugador);
+                sons.add(nuevo);
             }
-        }
-        //Asígnación de los hijos
-        for (int i = 0; i < sons.size(); ++i){
-            sons.get(i).setSons(-jugador);
         }
         //Asignar marca
         int hijoEmpate = -1;
-
         for(int i = 0; i < sons.size() && mark != jugador;++i){
             if(sons.get(i).mark == 0){hijoEmpate = i;}
             mark = sons.get(i).mark;
         }
-        //En caso de que no pueda ganar pero pueda ganar busco el empate
+        //En caso de que no pueda ganar pero pueda empatar busco el empate
         mark = mark >= 0 && hijoEmpate != -1? 0:mark;
     }
 }

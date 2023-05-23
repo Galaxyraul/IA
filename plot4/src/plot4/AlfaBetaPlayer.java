@@ -25,8 +25,8 @@ import static plot4.ConstantesAlfaBeta.*;
  *
  */
 interface ConstantesAlfaBeta{
-    int NIVEL_MAX = 10; //Nivel máximo de profundidad que se puede alcanzar
-    int NIVEL_PODA = 3; //Nivel a partir del cual se comenzará a podar
+    int NIVEL_MAX = 16; //Nivel máximo de profundidad que se puede alcanzar
+    int NIVEL_PODA = 5; //Nivel a partir del cual se comenzará a podar
 
     int CONECTA = 16;
 }

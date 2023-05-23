@@ -49,11 +49,11 @@ public class Main extends JFrame implements ActionListener {
 
     // Parámetros
     // Número de filas
-    private static final int FILAS = 3;
+    private static final int FILAS = 6;
     // Número de columnas
-    private static final int COLUMNAS = 3;
+    private static final int COLUMNAS = 7;
     // Número de fichas que han de alinearse para ganar
-    private static final int CONECTA = 3;
+    private static final int CONECTA = 4;
     
     // Grid de juego
     private JButton[][] tableroGUI; // Tablero gráfico
