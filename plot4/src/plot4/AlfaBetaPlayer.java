@@ -25,8 +25,9 @@ import static plot4.ConstantesAlfaBeta.*;
  *
  */
 interface ConstantesAlfaBeta{
-    int NIVEL_MAX = 16; //Nivel máximo de profundidad que se puede alcanzar
+    int NIVEL_MAX = 9; //Nivel máximo de profundidad que se puede alcanzar
     int NIVEL_PODA = 5; //Nivel a partir del cual se comenzará a podar
+    int NIVEL_EXPANSION = 6;
 
     int CONECTA = 16;
 }
@@ -46,10 +47,10 @@ public class AlfaBetaPlayer extends Player {
     public int turno(Grid tablero, int conecta) {
         //Comprobamos que el arbol no se ha creado
         if (nodoActual == null){
-            nodoActual = new NodoAlfaBeta(null,tablero); //Nodo raiz
+            nodoActual = new NodoAlfaBeta(tablero,0); //Nodo raiz
             long start = System.nanoTime();//Tiempo de inicio para la saber cuanto tarda en generar el arbol
             nodoActual.setSons(-1,1);
-            long end = System.nanoTime() - start;//Tiempo final
+            long end = System.nanoTime() - start; //Tiempo final
             System.out.println("Ha tardado " + end/1e9 + "s en generar el arbol");
         }
         //Nos vamos al estado resultante de haber jugado el otro jugador
@@ -61,24 +62,22 @@ public class AlfaBetaPlayer extends Player {
                 }
             }
         }
-        System.out.println("Jugadas del jugador:" + nodoActual.jugador);
+        System.out.println("Posibles jugadas siguientes para:" + nodoActual.jugador);
         nodoActual.visualizaHijos();
-        if(nodoActual.sons.size() != 0) { //Si tenemos hijos buscamos el más favorable en nuestro caso el menor
-            int posicion = 0;
-            //Buscamos el hijo con menor peso para maximizar
-            for (int i = 0; i < nodoActual.sons.size(); ++i) {
-                posicion = nodoActual.sons.get(i).peso < nodoActual.sons.get(posicion).peso?i:posicion;
-            }
-            NodoAlfaBeta aux = nodoActual;
-            nodoActual = nodoActual.sons.get(posicion);
-            //Mostramos jugadas del jugador para que pueda elegir siempre la mejor
-            System.out.println("Jugadas del jugador:" + nodoActual.jugador);
-            nodoActual.visualizaHijos();
-            //Devolvemos movimiento
-            return aux.sons.get(posicion).movimiento;
-        }else{ //Si no tenemos hijos escogemos aleatoriamente una columna
-            return getRandomColumn(tablero);
+        if(nodoActual.nivel >= NIVEL_EXPANSION){
+            nodoActual.regenera(0);
         }
+        int posicion = 0;
+        //Buscamos el hijo con menor peso para maximizar
+        for (int i = 0; i < nodoActual.sons.size(); ++i) {
+            posicion = nodoActual.sons.get(i).peso < nodoActual.sons.get(posicion).peso?i:posicion;
+        }
+        NodoAlfaBeta aux = nodoActual;
+        nodoActual = nodoActual.sons.get(posicion);
+        System.out.println("Posibles jugadas siguientes para:" + nodoActual.jugador);
+        nodoActual.visualizaHijos();
+        //Devolvemos movimiento
+        return aux.sons.get(posicion).movimiento;
     }
 
     public boolean tablerosIguales(Grid hijo,Grid tablero){
@@ -91,24 +90,24 @@ public class AlfaBetaPlayer extends Player {
         return iguales;
     }
     class NodoAlfaBeta {
-        public final NodoAlfaBeta parent;
         public final ArrayList<NodoAlfaBeta> sons;
         public final Grid state;
         public float peso = 0;
         private int jugador;
         public int movimiento;
+        public int nivel = 0;
 
-        public NodoAlfaBeta(NodoAlfaBeta parent, Grid state) {
-            this.parent = parent;
+        public NodoAlfaBeta(Grid state,int nivel) {
             sons = new ArrayList<>();
             this.state = new Grid(state);
+            this.nivel = nivel;
         }
 
-        public NodoAlfaBeta(NodoAlfaBeta parent, Grid state, int movimiento) {
-            this.parent = parent;
+        public NodoAlfaBeta( Grid state, int movimiento,int nivel) {
             sons = new ArrayList<>();
             this.state = new Grid(state);
             this.movimiento = movimiento;
+            this.nivel = nivel;
         }
 
         public Grid getState() {
@@ -120,8 +119,24 @@ public class AlfaBetaPlayer extends Player {
                 System.out.println("hijo:" + i + " valor:" + sons.get(i).peso + "\njugada:" + sons.get(i).movimiento);
             }
         }
-
+        public void regenera(int nivel){
+            this.nivel = nivel;
+            if(sons.size() == 0 && jugador * peso != CONECTA){
+                this.setSons(jugador,nivel + 1);
+            }else {
+                for (int i = 0; i < sons.size(); ++i) {
+                    sons.get(i).regenera(nivel + 1);
+                }
+                if(jugador == 1){
+                    maximiza();
+                }else {
+                    minimiza();
+                }
+            }
+        }
         public void setSons(int jugador,int nivel){
+            this.jugador = jugador;
+            this.nivel = nivel;
             //Comprobamos que no haya ganado nadie
             if (state.checkWin() != 0) {
                 peso = (float) (-jugador*Math.pow(getBigger(state.checkWin()),2));
@@ -138,11 +153,10 @@ public class AlfaBetaPlayer extends Player {
                 return;
             }
             //Generación Base
-            this.jugador = jugador;
             for (int i = 0; i < state.columnas; ++i) {
                 Grid aux = new Grid(state);
                 if (aux.set(i, jugador) >= 0) {
-                    NodoAlfaBeta candidato = new NodoAlfaBeta(this, aux, i);
+                    NodoAlfaBeta candidato = new NodoAlfaBeta(aux, i,nivel + 1);
                     sons.add(candidato);
                     //Generamos los hijos antes de añadir todos los del nivel para poder tomar un valor de referencia para podar antes de que e aumente mucho el arbol
                     candidato.setSons(-jugador,nivel + 1);
@@ -161,14 +175,25 @@ public class AlfaBetaPlayer extends Player {
             }
 
             //Gestionar los pesos
-            int posMin = 0;
+            if(jugador == 1){
+                maximiza();
+            }else {
+                minimiza();
+            }
+        }
+        void maximiza(){
             int posMax = 0;
             for (int i = 1; i < sons.size(); ++i) {
-                posMin = sons.get(i).peso < sons.get(posMin).peso?i:posMin;
                 posMax = sons.get(i).peso > sons.get(posMax).peso?i:posMax;
             }
-            //En función del jugador que sea su turno escogemos el mayor o el menor y lo dividimos entre 1.2 como penalización por nivel
-            peso = (float) (jugador == 1? sons.get(posMax).peso/1.2:sons.get(posMin).peso/1.2);
+            peso = (float) (sons.get(posMax).peso / 1.2);
+        }
+        void minimiza(){
+            int posMin = 0;
+            for (int i = 1; i < sons.size(); ++i) {
+                posMin = sons.get(i).peso < sons.get(posMin).peso?i:posMin;
+            }
+            peso = (float) (sons.get(posMin).peso / 1.2);
         }
         public int getBigger(int jugador){
             int bigger = 0;
