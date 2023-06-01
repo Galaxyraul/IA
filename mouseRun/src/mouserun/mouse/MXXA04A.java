@@ -50,7 +50,7 @@ public class MXXA04A extends Mouse {
      */
     @Override
     public int move(Grid currentGrid, Cheese cheese) {
-        
+
         Random random = new Random();
         ArrayList<Integer> list = new ArrayList<Integer>();
         if (currentGrid.canGoUp()) {
@@ -67,7 +67,7 @@ public class MXXA04A extends Mouse {
         }
         list.add(Mouse.BOMB);
         return random.nextInt(list.size());
-        
+
     }
 
     /**
@@ -75,7 +75,7 @@ public class MXXA04A extends Mouse {
      */
     @Override
     public void newCheese() {
-        
+
     }
 
     /**
@@ -83,7 +83,7 @@ public class MXXA04A extends Mouse {
      */
     @Override
     public void respawned() {
-        
+
     }
 
     /**
@@ -96,30 +96,30 @@ public class MXXA04A extends Mouse {
         if (lastGrid == null) {
             return true;
         }
-        
+
         int x = currentGrid.getX();
         int y = currentGrid.getY();
-        
+
         switch (direction) {
             case UP:
                 y += 1;
                 break;
-            
+
             case DOWN:
                 y -= 1;
                 break;
-            
+
             case LEFT:
                 x -= 1;
                 break;
-            
+
             case RIGHT:
                 x += 1;
                 break;
         }
-        
+
         return !(lastGrid.getX() == x && lastGrid.getY() == y);
-        
+
     }
 
     /**
@@ -134,20 +134,20 @@ public class MXXA04A extends Mouse {
     public boolean visitada(Grid casilla, int direccion) {
         int x = casilla.getX();
         int y = casilla.getY();
-        
+
         switch (direccion) {
             case UP:
                 y += 1;
                 break;
-            
+
             case DOWN:
                 y -= 1;
                 break;
-            
+
             case LEFT:
                 x -= 1;
                 break;
-            
+
             case RIGHT:
                 x += 1;
                 break;
@@ -217,18 +217,18 @@ public class MXXA04A extends Mouse {
             this.first = first;
             this.second = second;
         }
-        
+
         @Override
         // Verifica que el objeto especificado sea "igual a" el objeto actual o no
         public boolean equals(Object o) {
             if (this == o) {
                 return true;
             }
-            
+
             if (o == null || getClass() != o.getClass()) {
                 return false;
             }
-            
+
             Pair<?, ?> pair = (Pair<?, ?>) o;
 
             // llamar al método `equals()` de los objetos subyacentes
@@ -237,19 +237,19 @@ public class MXXA04A extends Mouse {
             }
             return second.equals(pair.second);
         }
-        
+
         @Override
         // Calcula el código hash de un objeto para admitir tablas hash
         public int hashCode() {
             // usa códigos hash de los objetos subyacentes
             return 31 * first.hashCode() + second.hashCode();
         }
-        
+
         @Override
         public String toString() {
             return "(" + first + ", " + second + ")";
         }
-        
+
     }
     
 } // class MXXA04A

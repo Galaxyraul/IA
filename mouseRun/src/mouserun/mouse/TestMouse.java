@@ -1,7 +1,7 @@
 package mouserun.mouse;		
 import mouserun.game.*;		
 import java.util.*;			
-
+/*
 public class TestMouse
 	extends Mouse				
 {
@@ -28,26 +28,22 @@ public class TestMouse
 			lastGrid = currentGrid;
 			return possibleMoves.get(0);
 		}
-		else
-		{
-			if (!testGrid(Mouse.UP, currentGrid)) possibleMoves.remove((Integer)Mouse.UP);
-			if (!testGrid(Mouse.DOWN, currentGrid)) possibleMoves.remove((Integer)Mouse.DOWN);
-			if (!testGrid(Mouse.LEFT, currentGrid)) possibleMoves.remove((Integer)Mouse.LEFT);
-			if (!testGrid(Mouse.RIGHT, currentGrid)) possibleMoves.remove((Integer)Mouse.RIGHT);
-		
-			if (possibleMoves.size() == 0)
-			{
+		else {
+			if (!testGrid(Mouse.UP, currentGrid)) possibleMoves.remove((Integer) Mouse.UP);
+			if (!testGrid(Mouse.DOWN, currentGrid)) possibleMoves.remove((Integer) Mouse.DOWN);
+			if (!testGrid(Mouse.LEFT, currentGrid)) possibleMoves.remove((Integer) Mouse.LEFT);
+			if (!testGrid(Mouse.RIGHT, currentGrid)) possibleMoves.remove((Integer) Mouse.RIGHT);
+
+			if (possibleMoves.size() == 0) {
 				if (currentGrid.canGoUp()) possibleMoves.add(Mouse.UP);
 				if (currentGrid.canGoDown()) possibleMoves.add(Mouse.DOWN);
 				if (currentGrid.canGoLeft()) possibleMoves.add(Mouse.LEFT);
 				if (currentGrid.canGoRight()) possibleMoves.add(Mouse.RIGHT);
 				possibleMoves.add(Mouse.BOMB);
-				
+
 				lastGrid = currentGrid;
 				return possibleMoves.get(random.nextInt(possibleMoves.size()));
-			}
-			else
-			{
+			} else {
 				lastGrid = currentGrid;
 				return possibleMoves.get(random.nextInt(possibleMoves.size()));
 			}
@@ -100,3 +96,4 @@ public class TestMouse
 	
 	
 }
+*/
